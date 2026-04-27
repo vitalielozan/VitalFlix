@@ -15,7 +15,7 @@ A simple and responsive Movie App built with *Vite +*React.
 ## Features
 
 - Search for movies using a public API
-- Save favorite movies to LocalStorage
+- Save favorite movies to Supabase
 - Responsive and styled with Tailwind CSS and DaisyUI
 - Fast load times thanks to Vite
 
@@ -23,13 +23,12 @@ A simple and responsive Movie App built with *Vite +*React.
 
 - Clone the repo
 
-bash```
+bash`
 git clone <https://github.com/vitalielozan/VitalFlix.git>
 cd movie-app
 npm install
 npm run dev
-
-bash```
+bash`
 
 ## 🌐 API
 
