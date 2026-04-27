@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM", "es2024"],
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false
+  },
+  "include": ["src/**/*.js", "src/**/*.jsx"],
+  "exclude": ["node_modules"]
+}
