@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   SignedIn,
   SignedOut,
@@ -12,15 +12,43 @@ function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const debounceRef = useRef(null);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (query.trim()) {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
-      setQuery("");
-      setShowSearch(false);
+  useEffect(() => {
+    const trimmedQuery = query.trim();
+    if (!showSearch || trimmedQuery.length < 10) {
+      return;
     }
-  };
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`);
+      setShowSearch(false);
+      setQuery("");
+    }, 300);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [query, showSearch, navigate]);
+
+  const prevPathnameRef = useRef(location.pathname);
+
+  useEffect(() => {
+    if (prevPathnameRef.current === location.pathname) {
+      return;
+    }
+
+    prevPathnameRef.current = location.pathname;
+    setShowSearch(false);
+    setQuery("");
+  }, [location.pathname]);
 
   return (
     <div className="navbar sticky top-0 z-40 bg-base-200/90 shadow-lg backdrop-blur-sm">
@@ -42,7 +70,7 @@ function Header() {
 
       <div className="flex items-center gap-2">
         {showSearch ? (
-          <form onSubmit={handleSearch} className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <input
               autoFocus
               type="text"
@@ -58,7 +86,7 @@ function Header() {
             >
               <FaTimes size={14} />
             </button>
-          </form>
+          </div>
         ) : (
           <button
             onClick={() => setShowSearch(true)}

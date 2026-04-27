@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useMovieContext } from "../hooks/useFavoriteContext.js";
 import { FiHeart } from "react-icons/fi";
@@ -6,17 +6,16 @@ import { FaPlay } from "react-icons/fa";
 
 function MovieCard({ movie }) {
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useMovieContext();
-  const [favorite, setFavorite] = useState(false);
-
-  useEffect(() => {
-    setFavorite(isFavorite(movie.id));
-  }, [movie.id, isFavorite]);
+  const { user, isFavorite, toggleFavorite } = useMovieContext();
+  const favorite = isFavorite(movie.id);
 
   const handleToggle = (e) => {
     e.stopPropagation();
+    if (!user) {
+      navigate("/sign-in");
+      return;
+    }
     toggleFavorite(movie);
-    setFavorite((prev) => !prev);
   };
 
   return (

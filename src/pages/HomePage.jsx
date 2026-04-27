@@ -8,6 +8,8 @@ import {
 } from "../services/api.js";
 import HeroBanner from "../components/HeroBanner.jsx";
 import MovieRow from "../components/MovieRow.jsx";
+import MotionDiv from "../components/MotionDiv.jsx";
+import MovieCard from "../components/MovieCard.jsx";
 
 function HomePage() {
   const [popular, setPopular] = useState([]);

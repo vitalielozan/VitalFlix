@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { FaPlay, FaHeart, FaArrowLeft } from "react-icons/fa";
 import {
   getMovieDetails,
@@ -64,7 +64,7 @@ function MovieDetailPage() {
   const fav = isFavorite(movie.id);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <Motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* Backdrop */}
       <div className="relative h-[60vh] w-full overflow-hidden">
         <img
@@ -109,7 +109,7 @@ function MovieDetailPage() {
 
             <div className="flex flex-wrap gap-2">
               {movie.genres?.map((g) => (
-                <span key={g.id} className="badge badge-outline badge-primary">
+                <span key={g.id} className="badge badge-primary badge-outline">
                   {g.name}
                 </span>
               ))}
@@ -206,7 +206,7 @@ function MovieDetailPage() {
           </div>
         </div>
       )}
-    </motion.div>
+    </Motion.div>
   );
 }
 
