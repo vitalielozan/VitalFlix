@@ -17,7 +17,7 @@ function Header() {
 
   useEffect(() => {
     const trimmedQuery = query.trim();
-    if (!showSearch || trimmedQuery.length < 10) {
+    if (!showSearch || trimmedQuery.length < 5) {
       return;
     }
 
