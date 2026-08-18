@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMovieContext } from "../hooks/useFavoriteContext.js";
 import { FiHeart } from "react-icons/fi";
 import { FaPlay } from "react-icons/fa";
+import { showToast } from "../lib/toast.js";
 
 function MovieCard({ movie }) {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function MovieCard({ movie }) {
   const handleToggle = (e) => {
     e.stopPropagation();
     if (!user) {
-      navigate("/sign-in");
+      showToast("You need to be logged in to add to favorites", "error");
       return;
     }
     toggleFavorite(movie);

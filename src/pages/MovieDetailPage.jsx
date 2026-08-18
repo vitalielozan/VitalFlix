@@ -8,6 +8,7 @@ import {
   getMovieCredits,
 } from "../services/api.js";
 import { useMovieContext } from "../hooks/useFavoriteContext.js";
+import { showToast } from "../lib/toast.js";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 const POSTER_BASE = "https://image.tmdb.org/t/p/w500";
@@ -16,7 +17,7 @@ const PROFILE_BASE = "https://image.tmdb.org/t/p/w185";
 function MovieDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useMovieContext();
+  const { user, isFavorite, toggleFavorite } = useMovieContext();
 
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -136,7 +137,16 @@ function MovieDetailPage() {
                 <FaPlay /> {trailer ? "Play Trailer" : "No Trailer"}
               </button>
               <button
-                onClick={() => toggleFavorite(movie)}
+                onClick={() => {
+                  if (!user) {
+                    showToast(
+                      "Trebuie să fii logat pentru a adăuga la favorite",
+                      "error",
+                    );
+                    return;
+                  }
+                  toggleFavorite(movie);
+                }}
                 className={`btn gap-2 ${fav ? "btn-error" : "btn-outline"}`}
               >
                 <FaHeart />

@@ -2,12 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlay, FaHeart } from "react-icons/fa";
 import { useMovieContext } from "../hooks/useFavoriteContext.js";
+import { showToast } from "../lib/toast.js";
 
 const POSTER_BASE = "https://image.tmdb.org/t/p/w300";
 
 function MovieThumbnail({ movie }) {
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useMovieContext();
+  const { user, isFavorite, toggleFavorite } = useMovieContext();
   const fav = isFavorite(movie.id);
 
   return (
@@ -45,6 +46,13 @@ function MovieThumbnail({ movie }) {
             className={`rounded-full p-1 transition-colors ${fav ? "text-red-500" : "text-white hover:text-red-400"}`}
             onClick={(e) => {
               e.stopPropagation();
+              if (!user) {
+                showToast(
+                  "You need to be logged in to add to favorites",
+                  "error",
+                );
+                return;
+              }
               toggleFavorite(movie);
             }}
           >
